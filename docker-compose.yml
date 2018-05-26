@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  login-api:
+    image: login-service:latest
+    container_name: login-api
+    environment:
+      REDIS_HOST: login-cache
+      CONNECTION_STRING: postgres://login-user:Password01!@login-database/Users
+    ports:
+      - 8081:80
+    depends_on:
+      - login-database
+      - login-cache
+
+  login-database:
+    image: postgres:latest
+    container_name: login-database
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: Password01!
+      POSTGRES_DB: Users
+      POSTGRES_USER: login-user
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+
+  login-cache:
+    image: redis:alpine
+    container_name: login-cache
