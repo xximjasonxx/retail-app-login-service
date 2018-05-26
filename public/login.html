@@ -1,0 +1,37 @@
+
+<html>
+    <head>
+        <title>Login into Retail App</title>
+        <link type="text/css" rel="stylesheet" href="css/main.css" />
+        <link type="text/css" rel="stylesheet" href="css/form.css" />
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="formContainer">
+                <form>
+                    <h3 class="centered">Login Here</h3>
+                    <div class="formRow">
+                        <input type="text" class="textInput" placeholder="Enter Username" id="username" />
+                    </div>
+                    <div class="formRow">
+                        <input type="password" class="textInput" placeholder="Enter password" id="password" />
+                    </div>
+                    <div class="formRow centered">
+                        <button type="button" onclick="fetchToken();">Login</button>
+                    </div>
+                    <div class="centered">
+                        <a href="create.html">Create a User</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tokenContainer" id="tokenContainer">
+                Your token will appear here
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="scripts/login.js"></script>
+    </body>
+</html>

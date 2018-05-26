@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>Create User</title>
+        <link type="text/css" rel="stylesheet" href="css/main.css" />
+        <link type="text/css" rel="stylesheet" href="css/form.css" />
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="formContainer">
+                <form>
+                    <h3 class="centered">Create User</h3>
+                    <div class="formRow">
+                        <input type="text" class="textInput" placeholder="Enter First Name" id="firstName" />
+                    </div>
+                    <div class="formRow">
+                        <input type="text" class="textInput" placeholder="Enter Last Name" id="lastName" />
+                    </div>
+                    <div class="formRow">
+                        <input type="text" class="textInput" placeholder="Enter Username" id="username" />
+                    </div>
+                    <div class="formRow">
+                        <input type="password" class="textInput" placeholder="Enter Password" id="password" />
+                    </div>
+                    <div class="formRow">
+                        <label for="role">Role</label>
+                        <select id="role" size="1">
+                            <option value="admin">Admin</option>
+                            <option value="member">Member</option>
+                            <option value="gues">Gues</option>
+                        </select>
+                    </div>
+                    <div class="formRow centered">
+                        <button type="button" onclick="createUser();">Create</button>
+                    </div>
+                    <div class="centered">
+                        <a href="login.html">Return to Login</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tokenContainer" id="tokenContainer">
+                Your token will appear here
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="scripts/create.js"></script>
+    </body>
+</html>

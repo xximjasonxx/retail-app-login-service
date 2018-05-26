@@ -1,0 +1,18 @@
+.formContainer, .tokenContainer {
+    display: block;
+    width: 500px;
+    word-wrap: break-word;
+}
+
+.formContainer .textInput, button {
+    width: 300px;
+    font-size: 14pt;
+}
+
+.formRow {
+    margin-bottom: 7px;
+}
+
+.centered {
+    text-align: center;
+}

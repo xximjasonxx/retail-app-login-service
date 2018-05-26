@@ -1,0 +1,22 @@
+{
+  "name": "login-api",
+  "version": "1.0.0",
+  "description": "Retail Server Login API",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "Jason Farrell",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^2.0.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "lodash": "^4.17.5",
+    "pg-promise": "^8.4.0",
+    "redis": "^2.8.0",
+    "uuid": "^3.2.1"
+  }
+}
