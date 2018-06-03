@@ -1,0 +1,126 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-pgsql
+  labels:
+    app: login-service
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: login-service
+    tier: login-pgsql
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-pgsql
+  labels:
+    app: login-service
+spec:
+  selector:
+    matchLabels:
+      app: login-service
+      tier: login-pgsql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: login-service
+        tier: login-pgsql
+    spec:
+      containers:
+        - image: registry.gitlab.com/retailapp/retail-app-login-database
+          name: login-database
+          env:
+            - name: POSTGRES_PASSWORD
+              value: Password01!
+            - name: POSTGRES_DB
+              value: Users
+            - name: POSTGRES_USER
+              value: login-user
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-redis
+  labels:
+    app: login-service
+spec:
+  ports:
+    - port: 6380
+  selector:
+    app: login-service
+    tier: login-cache
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-cache
+  labels:
+    app: login-service
+spec:
+  selector:
+    matchLabels:
+      app: login-service
+      tier: login-cache
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: login-service
+        tier: login-cache
+    spec:
+      containers:
+        - image: redis:alpine
+          name: login-cache
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-service
+  labels:
+    app: login-service
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: login-service
+    tier: api
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-api
+  labels:
+    app: login-service
+spec:
+  selector:
+    matchLabels:
+      app: login-service
+      tier: api
+  strategy:
+    type: Recreate
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: login-service
+        tier: api
+    spec:
+      containers:
+        - image: registry.gitlab.com/xximjasonxx/retail-app-login-service
+          name: login-api
+          env:
+            - name: REDIS_HOST
+              value: login-redis
+            - name: CONNECTION_STRING
+              value: postgres://login-user:Password01!@login-pgsql/Users
+          ports:
+            - containerPort: 80
+              name: login-api
