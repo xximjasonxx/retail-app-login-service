@@ -114,7 +114,7 @@ spec:
         tier: api
     spec:
       containers:
-        - image: registry.gitlab.com/xximjasonxx/retail-app-login-service
+        - image: registry.gitlab.com/retailapp/retail-app-login-service
           name: login-api
           env:
             - name: REDIS_HOST
