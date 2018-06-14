@@ -6,7 +6,7 @@ const buildPgConnectionString = () => {
 };
 
 const connectionString = buildPgConnectionString();
-console.log(connectionString);
+console.log(`connStr: ${connectionString}`);
 
 const db = pgp(connectionString);
 exports.database = db;
