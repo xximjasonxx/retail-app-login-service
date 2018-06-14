@@ -3,6 +3,7 @@ const createUser = require('../helpers/user').createUser;
 const getByUsername = require('../helpers/user').getByUsername;
 
 module.exports = function(request, response) {
+    console.log('request received');
     const username = request.body.username;
     getByUsername(username)
         .then((user) => {
@@ -10,6 +11,7 @@ module.exports = function(request, response) {
                 return Promise.reject({ code: 409, message: 'Username already exists' });
             }
 
+            console.log('creating user');
             return createUser(request.body);
         })
         .then(() => {

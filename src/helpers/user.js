@@ -17,6 +17,7 @@ exports.getByUsername = (username) => {
 }
 
 exports.createUser = (newUserData) => {
+    console.log('new user: ' + newUserData);
     return hashPassword(newUserData.password)
         .then(({ hashedPassword, salt }) => {
             const insertData = Object.assign({}, newUserData, {
