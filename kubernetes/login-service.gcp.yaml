@@ -34,13 +34,6 @@ spec:
       containers:
         - image: gcr.io/crested-axe-202521/retail-app-login-service:release
           name: login-api
-          command: [ "/cloud_sql_proxy",
-                     "-instances=crested-axe-202521:us-central1:retail-app-login-database=tcp:5432",
-                     "-credential_file=/secrets/cloudsql/credentials.json" ]
-          volumeMounts:
-            - name: login-db-instance-credentials
-              mountPath: /secrets/cloudsql
-              readOnly: true
           env:
             - name: REDIS_HOST
               value: 10.0.0.3
@@ -59,6 +52,15 @@ spec:
           ports:
             - containerPort: 80
               name: login-api
+        - name: cloudql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command: [ "/cloud_sql_proxy",
+                     "-instances=crested-axe-202521:us-central1:retail-app-login-database=tcp:5432",
+                     "-credential_file=/secrets/cloudsql/credentials.json" ]
+          volumeMounts:
+            - name: login-db-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
       volumes:
         - name: login-db-instance-credentials
           secret:
