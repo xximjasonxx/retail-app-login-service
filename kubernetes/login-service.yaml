@@ -119,8 +119,12 @@ spec:
           env:
             - name: REDIS_HOST
               value: login-redis
-            - name: CONNECTION_STRING
-              value: postgres://login-user:Password01!@login-pgsql/Users
+            - name: DB_USER
+              value: login-user
+            - name: DB_PASSWORD
+              value: Password01!
+            - name: DB_HOST
+              value: login-pgsql
           ports:
             - containerPort: 80
               name: login-api

@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-service
+  labels:
+    app: login-service
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: login-service
+    tier: api
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-api
+  labels:
+    app: login-service
+spec:
+  selector:
+    matchLabels:
+      app: login-service
+  strategy:
+    type: Recreate
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: login-service
+        tier: api
+    spec:
+      containers:
+        - image: gcr.io/crested-axe-202521/retail-app-login-service:release
+          name: login-api
+          command: [ "/cloud_sql_proxy",
+                     "-instances=crested-axe-202521:us-central1:retail-app-login-database=tcp:5432",
+                     "-credential_file=/secrets/cloudsql/credentials.json" ]
+          volumeMounts:
+            - name: login-db-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+          env:
+            - name: REDIS_HOST
+              value: 10.0.0.3
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: login-db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: login-db-credentials
+                  key: password
+            - name: DB_HOST
+              value: 127.0.0.1:5432
+          ports:
+            - containerPort: 80
+              name: login-api
+      volumes:
+        - name: login-db-instance-credentials
+          secret:
+            secretName: login-db-instance-credentials
