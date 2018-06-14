@@ -12,7 +12,7 @@ spec:
     tier: api
   type: LoadBalancer
 ---
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: login-api
@@ -49,6 +49,8 @@ spec:
                   key: password
             - name: DB_HOST
               value: 127.0.0.1:5432
+            - name: PORT
+              value: 80
           ports:
             - containerPort: 80
               name: login-api
