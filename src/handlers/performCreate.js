@@ -18,6 +18,7 @@ module.exports = function(request, response) {
             response.status(201).end();
         })
         .catch((error) => {
+            console.log(error);
             if (error.code) {
                 response.status(error.code).json({ message: error.message }).end();
             }
