@@ -4,6 +4,10 @@ const client = redis.createClient({
     host: process.env.REDIS_HOST
 });
 
+client.on('error', (err) => {
+    console.log('redis error', err);
+});
+
 exports.setKey = (key, value, expirationInSeconds) => {
     client.set(key, value, 'EX', expirationInSeconds);
 }

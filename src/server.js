@@ -10,8 +10,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-console.error('dbhost: ' + process.env.DB_HOST);
-
 // add handlers
 app.post('/api/login', handlers.performLogin);
 app.post('/api/user', handlers.performCreate);
