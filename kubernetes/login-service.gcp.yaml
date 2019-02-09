@@ -24,7 +24,7 @@ spec:
       app: login-service
   strategy:
     type: Recreate
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -57,7 +57,7 @@ spec:
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
           command: [ "/cloud_sql_proxy",
                      "-instances=crested-axe-202521:us-central1:retail-app-login-database=tcp:5432",
-                     "-credential_file=/secrets/cloudsql/credentials.json" ]
+                     "-credential_file=/secrets/cloudsql/loginDbCreds.json" ]
           volumeMounts:
             - name: login-db-instance-credentials
               mountPath: /secrets/cloudsql
